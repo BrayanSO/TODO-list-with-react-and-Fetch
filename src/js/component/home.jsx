@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 const Home = () => {
 const [tasks, setTasks]= useState ([
     "Lavar ropa",
-    "Bañar al perro"
+    "Lavar el Auto"
   ])
   const [newTask, setNewTask]= useState("")
   function addTask (e){
