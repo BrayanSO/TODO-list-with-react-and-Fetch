@@ -18,14 +18,14 @@ const [tasks, setTasks]= useState ([
   }
   return (
   <div className="mb-3 container-fluid d-flex mt-5 justify-content-center ">
-    <ul className="list-group w-25 ">
+    <ul className="list-group w-35 justify-content-center ">
     <li className="list-group-item d-flex justify-content-between align-items-center">
         <input type="text" onKeyDown={e=>addTask(e)} className='fo' onChange={e=>setNewTask(e.target.value)} value={newTask} name="task" id="task" />
       </li>
     {tasks.map((task, index)=>(
         <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
         {task}
-        <button onClick={()=>removeTask(index)} className="badge bg-primary rounded-pill">x</button>
+        <button onClick={()=>removeTask(index)} className="badge bg-primary rounded-pill justify-content-center">x</button>
       </li>
     ))}
 	<li className="list-group-item d-flex disabled justify-content-center align-items-center">
