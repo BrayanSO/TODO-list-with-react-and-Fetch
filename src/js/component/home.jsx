@@ -1,9 +1,6 @@
 import React, {useState,useEffect} from 'react';
 const Home = () => {
-const [tasks, setTasks]= useState ([
-  {label: "Lavar ropa", done: false},
-  {label: "Lavar el Auto", done: false}
-  ])
+const [tasks, setTasks]= useState ([])
   const [newTask, setNewTask]= useState("")
   function addTask (e){
 	if (e.code=="Enter" && newTask!=""){
@@ -12,25 +9,30 @@ const [tasks, setTasks]= useState ([
 	}
   }
   useEffect(async() =>{
-      let respuesta = await fetch("https://assets.breatheco.de/apis/fake/todos/user/Brayan")
+    //Intenta traer lista
+      var respuesta =await fetch("https://assets.breatheco.de/apis/fake/todos/user/Brayan")
+      // verifica si la lista no existe
       if (respuesta.status==404){
         // crear la lista
-        respuesta =await fetch("https://assets.breatheco.de/apis/fake/todos/user/Brayan"),{
+        respuesta =await fetch("https://assets.breatheco.de/apis/fake/todos/user/Brayan",{
           method:"POST",
           body:JSON.stringify([]),
           headers:{
-            Content-Type: "application/json"
+            "Content-Type":"application/json"
           }
+          })
+          //Traer nueva lista
           respuesta =await fetch("https://assets.breatheco.de/apis/fake/todos/user/Brayan")
-        } else if (!respuesta.ok){
+        }else if(!respuesta.ok){
           // errror
-          console.error("error al cargar"+respuesta.statusText)
+          console.error("error al cargar la lista: " + respuesta.statusText)
         }
-      }
+      
+      //cargar la data del body
       var data=await respuesta.json()
       setTasks(data)
+    },[])
       // cargar la lista
-  },[])
   function removeTask(index){
     let newTasks= [...tasks]
     newTasks.splice(index,1)
@@ -41,7 +43,7 @@ const [tasks, setTasks]= useState ([
       method:"PUT",
       body:JSON.stringify([tasks]),
       headers:{
-        "content-type":"application/json"}
+        "Content-Type":"application/json"}
   },[tasks])
   return (
   <div className="mb-3 container-fluid d-flex mt-5 justify-content-center ">
