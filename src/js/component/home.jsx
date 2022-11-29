@@ -19,8 +19,7 @@ const [tasks, setTasks]= useState ([])
           body:JSON.stringify([]),
           headers:{
             "Content-Type":"application/json"
-          }
-          })
+          }})
           //Traer nueva lista
           respuesta =await fetch("https://assets.breatheco.de/apis/fake/todos/user/Brayan")
         }else if(!respuesta.ok){
@@ -30,21 +29,32 @@ const [tasks, setTasks]= useState ([])
       
       //cargar la data del body
       var data=await respuesta.json()
+      //actualiza el estado cn la data
       setTasks(data)
     },[])
+
+
       // cargar la lista
   function removeTask(index){
     let newTasks= [...tasks]
     newTasks.splice(index,1)
     setTasks(newTasks)
   }
-  useEffect(async () =>{
-    respuesta =await fetch("https://assets.breatheco.de/apis/fake/todos/user/Brayan"),{
+  useEffect(async ()=> {
+    if(tasks.length>0){
+     let resp =await fetch("https://assets.breatheco.de/apis/fake/todos/user/Brayan",{
       method:"PUT",
-      body:JSON.stringify([tasks]),
+      body:JSON.stringify(tasks),
       headers:{
-        "Content-Type":"application/json"}
+        "Content-Type":"application/json"
+      }
+      })
+      if(resp.ok){
+        console.info("lista actualizada")
+      }
+      }
   },[tasks])
+
   return (
   <div className="mb-3 container-fluid d-flex mt-5 justify-content-center ">
     <ul className="list-group w-35 justify-content-center ">
