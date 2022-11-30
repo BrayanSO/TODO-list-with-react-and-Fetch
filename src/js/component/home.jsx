@@ -2,6 +2,7 @@ import React, {useState,useEffect} from 'react';
 const Home = () => {
 const [tasks, setTasks]= useState ([])
   const [newTask, setNewTask]= useState("")
+  var apiurl = "https://assets.breatheco.de/apis/fake/todos/user/brayan"
   function addTask (e){
 	if (e.code=="Enter" && newTask!=""){
 		setTasks([...tasks, {label: newTask, done: false}])
@@ -10,18 +11,18 @@ const [tasks, setTasks]= useState ([])
   }
   useEffect(async() =>{
     //Intenta traer lista
-      var respuesta =await fetch("https://assets.breatheco.de/apis/fake/todos/user/Brayan")
+      var respuesta =await fetch(apiurl)
       // verifica si la lista no existe
       if (respuesta.status==404){
         // crear la lista
-        respuesta =await fetch("https://assets.breatheco.de/apis/fake/todos/user/Brayan",{
+        respuesta =await fetch(apiurl,{
           method:"POST",
           body:JSON.stringify([]),
           headers:{
             "Content-Type":"application/json"
           }})
           //Traer nueva lista
-          respuesta =await fetch("https://assets.breatheco.de/apis/fake/todos/user/Brayan")
+          respuesta =await fetch(apiurl)
         }else if(!respuesta.ok){
           // errror
           console.error("error al cargar la lista: " + respuesta.statusText)
@@ -35,14 +36,18 @@ const [tasks, setTasks]= useState ([])
 
 
       // cargar la lista
-  function removeTask(index){
+  async function removeTask(index){
     let newTasks= [...tasks]
-    newTasks.splice(index,1)
+    newTasks.splice(index,1) 
+    if (tasks.length==0){
+      let resp =await fetch(apiurl,{
+        method:"DELETE"
+    })}
     setTasks(newTasks)
   }
   useEffect(async ()=> {
     if(tasks.length>0){
-     let resp =await fetch("https://assets.breatheco.de/apis/fake/todos/user/Brayan",{
+     let resp =await fetch(apiurl,{
       method:"PUT",
       body:JSON.stringify(tasks),
       headers:{
