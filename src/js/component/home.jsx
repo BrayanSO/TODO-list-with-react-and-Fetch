@@ -69,7 +69,7 @@ const [tasks, setTasks]= useState ([])
     {tasks.map((task, index)=>(
         <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
         {task.label}
-        <button onClick={()=>removeTask(index)} className="badge bg-primary rounded-pill justify-content-center">x</button>
+        <button onClick={()=>removeTask(index)} className="badge bg-danger rounded-pill justify-content-center">X</button>
       </li>
     ))}
 	<li className="list-group-item d-flex disabled justify-content-center align-items-center">
